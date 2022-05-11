@@ -111,6 +111,7 @@ public class Creazione {
 
             ps.execute();
             System.out.println(informazioniTabella.getNomeTabella() +" inserito con successo");
+            System.out.println("+-------------------+");
         } catch (SQLException e) {
             e.printStackTrace();
         }
