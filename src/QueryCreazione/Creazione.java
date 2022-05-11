@@ -1,7 +1,7 @@
 package QueryCreazione;
 
 import db_connection.Connector;
-import entità.InformazioniTabella;
+import utils.InformazioniTabella;
 
 import java.sql.*;
 import java.util.ArrayList;
