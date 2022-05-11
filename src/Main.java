@@ -1,21 +1,20 @@
-import entità.Dipendente;
+import entità.InformazioniTabella;
 
-import static Query.Test.inserisciDipendente;
-import static Query.Test.testQuery;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+import static QueryCreazione.Creazione.getMetaDataTabella;
+import static QueryCreazione.Creazione.inserimento;
 
 public class Main {
     public static void main(String[] args) {
-        Dipendente dipendente = new Dipendente(
-                "XRHMLC75M55H783A",
-                "Fabio",
-                "Verdi",
-                "01/01/1995",
-                "fabioverdi@gmail.com",
-                "3332223331",
-                "IT98S0300203280637625659932",
-                null
-        );
-        inserisciDipendente(dipendente);
-        testQuery();
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Scrivi il nome della tabella nella quale vuoi inserire un record:");
+        String tabella = scan.nextLine();
+        InformazioniTabella i = getMetaDataTabella(tabella);
+
+        inserimento(i);
     }
 }
