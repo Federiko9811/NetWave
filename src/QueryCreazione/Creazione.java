@@ -1,10 +1,13 @@
 package QueryCreazione;
 
 import db_connection.Connector;
+import exceptions.TabellaNonTrovataException;
+import utils.ConsoleColors;
 import utils.InformazioniTabella;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,13 +15,13 @@ public class Creazione {
 
     /**
      * Ricava nomi e tipi delle colonne dal nome della tabella passata in input
-     * @param nomeTabella
+     *
      * @return informazioni sulla tabella
      */
-    public static InformazioniTabella getMetaDataTabella(String nomeTabella) {
+    public static InformazioniTabella getMetaDataTabella(String nomeTabella) throws TabellaNonTrovataException {
         Connection link = Connector.connect();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        PreparedStatement ps;
+        ResultSet rs;
 
         InformazioniTabella informazioniTabella = new InformazioniTabella();
         informazioniTabella.setNomeTabella(nomeTabella.toLowerCase());
@@ -45,9 +48,8 @@ public class Creazione {
             return informazioniTabella;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new TabellaNonTrovataException();
         }
-        return informazioniTabella;
     }
 
     /**
@@ -55,45 +57,50 @@ public class Creazione {
      * Effettua un cast su tutti i tipi anche se servirebbe farlo solo su alcuni ma si
      * evitano gli if
      *
-     * @param informazioniTabella
      * @return sql query
      */
-    private static String creaInsertString(InformazioniTabella informazioniTabella) {
+    private static List<String> creaInsertString(InformazioniTabella informazioniTabella) {
         StringBuilder s = new StringBuilder("insert into " + informazioniTabella.getNomeTabella() + " (");
+        StringBuilder s2 = new StringBuilder("insert into " + informazioniTabella.getNomeTabella() + " (");
 
         int numeroColonne = informazioniTabella.getNomiColonne().size();
 
         for (int i = 0; i < numeroColonne; i++) {
             if (i == numeroColonne - 1) {
                 s.append(informazioniTabella.getNomiColonne().get(i)).append(") ");
+                s2.append(informazioniTabella.getNomiColonne().get(i)).append(") ");
             } else {
                 s.append(informazioniTabella.getNomiColonne().get(i)).append(", ");
+                s2.append(informazioniTabella.getNomiColonne().get(i)).append(", ");
             }
         }
 
         s.append("values (");
+        s2.append("values (");
 
         for (int i = 0; i < numeroColonne; i++) {
             String tipo = informazioniTabella.getTipiColonne().get(i);
             if (i == numeroColonne - 1) {
                 s.append("?").append("::").append(tipo).append(")");
+                s2.append("?").append(")");
             } else {
                 s.append("?").append("::").append(tipo).append(", ");
+                s2.append("?").append(", ");
             }
         }
 
-        return s.toString();
+        return Arrays.asList(s.toString(), s2.toString());
     }
 
     public static void inserimento(InformazioniTabella informazioniTabella) {
         Scanner scan = new Scanner(System.in);
         Connection link = Connector.connect();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        PreparedStatement ps;
 
         try {
-            String sql = creaInsertString(informazioniTabella);
-            System.out.println(sql);
+            List<String> listaQuery = creaInsertString(informazioniTabella);
+            String sql = listaQuery.get(0);
+            System.out.println(ConsoleColors.RED_BOLD + "Query: " + listaQuery.get(1) + ConsoleColors.RESET);
             assert link != null;
             ps = link.prepareStatement(sql);
 
@@ -108,10 +115,14 @@ public class Creazione {
                     ps.setString(i + 1, value);
                 }
             }
-
             ps.execute();
-            System.out.println(informazioniTabella.getNomeTabella() +" inserito con successo");
-            System.out.println("+-------------------+");
+
+            String nomeTabellaCap = informazioniTabella.getNomeTabella()
+                    .substring(0, 1)
+                    .toUpperCase() + informazioniTabella.getNomeTabella().substring(1);
+
+            System.out.println(ConsoleColors.GREEN_BOLD + nomeTabellaCap + " inserito con successo");
+            System.out.println("+---------------------------------------+" + ConsoleColors.RESET);
         } catch (SQLException e) {
             e.printStackTrace();
         }

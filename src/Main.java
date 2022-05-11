@@ -1,3 +1,5 @@
+import exceptions.TabellaNonTrovataException;
+import utils.ConsoleColors;
 import utils.InformazioniTabella;
 
 import java.util.Scanner;
@@ -9,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
-        System.out.println("Benvenuto su NetWave");
+        System.out.println(ConsoleColors.BLUE_BOLD + "Benvenuto su NetWave" + ConsoleColors.RESET);
 
         boolean isRunning = true;
 
@@ -34,8 +36,13 @@ public class Main {
                             if (tabella.toLowerCase().equals("exit")) {
                                 isAdding = false;
                             } else {
-                                InformazioniTabella i = getMetaDataTabella(tabella);
-                                inserimento(i);
+
+                                try {
+                                    InformazioniTabella i = getMetaDataTabella(tabella);
+                                    inserimento(i);
+                                } catch (TabellaNonTrovataException e) {
+                                    System.out.println(e);
+                                }
                             }
                         }
                     }
