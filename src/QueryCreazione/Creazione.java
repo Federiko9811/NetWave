@@ -38,6 +38,9 @@ public class Creazione {
             List<String> listaTipiColonne = new ArrayList<>();
 
             for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                if (metaData.getColumnTypeName(i).equals("serial")){
+                    continue;
+                }
                 listaNomiColonne.add(metaData.getColumnName(i));
                 listaTipiColonne.add(metaData.getColumnTypeName(i));
             }
@@ -92,6 +95,9 @@ public class Creazione {
         return Arrays.asList(s.toString(), s2.toString());
     }
 
+    /**
+     * Inserisce all'interno del database il record
+     */
     public static void inserimento(InformazioniTabella informazioniTabella) {
         Scanner scan = new Scanner(System.in);
         Connection link = Connector.connect();
@@ -101,6 +107,7 @@ public class Creazione {
             List<String> listaQuery = creaInsertString(informazioniTabella);
             String sql = listaQuery.get(0);
             System.out.println(ConsoleColors.RED_BOLD + "Query: " + listaQuery.get(1) + ConsoleColors.RESET);
+            System.out.println(ConsoleColors.RED_BOLD + "Query: " + listaQuery.get(0) + ConsoleColors.RESET);
             assert link != null;
             ps = link.prepareStatement(sql);
 
