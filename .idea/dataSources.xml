@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="netwave" uuid="f21bb354-d90a-46fb-a1b7-ee1bbfeb8fe7">
+    <data-source source="LOCAL" name="Netwave" uuid="d4ac7819-ff56-4c0e-bb1d-da56e203366b">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://netwave.cmz3s5fvdd1s.us-east-1.rds.amazonaws.com:5432/postgres</jdbc-url>
+      <jdbc-url>jdbc:postgresql://netwave-server.postgres.database.azure.com:5432/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

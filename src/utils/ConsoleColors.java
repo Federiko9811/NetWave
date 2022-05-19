@@ -73,4 +73,18 @@ public class ConsoleColors {
     public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m"; // PURPLE
     public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";  // CYAN
     public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
+
+    public static String makeRed(String testo) {
+        return RED+testo+RESET;
+    }
+
+    public static String makeGreen(String testo) {
+        return GREEN+testo+RESET;
+    }
+
+    public static String makePurple(String testo) {
+        return PURPLE+testo+RESET;
+    }
+
+
 }

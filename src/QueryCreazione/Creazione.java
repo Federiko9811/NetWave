@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import static utils.ConsoleColors.makeRed;
+
 public class Creazione {
 
     /**
@@ -84,10 +86,10 @@ public class Creazione {
         for (int i = 0; i < numeroColonne; i++) {
             String tipo = informazioniTabella.getTipiColonne().get(i);
             if (i == numeroColonne - 1) {
-                s.append("?").append("::").append(tipo).append(")");
+                s.append(tipo).append(")");
                 s2.append("?").append(")");
             } else {
-                s.append("?").append("::").append(tipo).append(", ");
+                s.append(tipo).append(", ");
                 s2.append("?").append(", ");
             }
         }
@@ -106,8 +108,8 @@ public class Creazione {
         try {
             List<String> listaQuery = creaInsertString(informazioniTabella);
             String sql = listaQuery.get(0);
-            System.out.println(ConsoleColors.RED_BOLD + "Query: " + listaQuery.get(1) + ConsoleColors.RESET);
-            System.out.println(ConsoleColors.RED_BOLD + "Query: " + listaQuery.get(0) + ConsoleColors.RESET);
+            System.out.println(makeRed("Query: " + listaQuery.get(1)));
+            System.out.println(makeRed("Query: " + listaQuery.get(0)));
             assert link != null;
             ps = link.prepareStatement(sql);
 

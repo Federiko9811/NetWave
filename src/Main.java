@@ -10,23 +10,26 @@ import java.util.Scanner;
 import static Query.Interrogazioni.*;
 import static QueryCreazione.Creazione.getMetaDataTabella;
 import static QueryCreazione.Creazione.inserimento;
+import static utils.ConsoleColors.makePurple;
+import static utils.ConsoleColors.makeRed;
 
 public class Main {
 
     private static final List<String> listaQuery = new ArrayList<>(
             List.of(
                     "Nomi e Cognomi dei tecnici che hanno effettuato un'istallazione il primo giorno di lavoro",
-                    "Codice fiscale dei dipendenti che hanno effettuato un abbonamento con NetWave",
-                    "Numero di furgoni utilizzati nelle istallazioni di (mese e anno), utilizzati da tecnici"
+                    "Codice fiscale ed Email dei dipendenti che hanno effettuato un abbonamento con NetWave",
+                    "Numero di furgoni utilizzati nelle istallazioni di (mese e anno), utilizzati da tecnici",
+                    "Nome e Email dei clienti che hanno effettuato un abbonamento il giorno di scadenza di una Tariffa"
             )
     );
 
-    public static final String EXIT = ConsoleColors.RED + "exit" + ConsoleColors.RESET;
+    public static final String EXIT = makeRed("exit");
 
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
-        System.out.println(ConsoleColors.BLUE_BOLD + "Benvenuto su NetWave" + ConsoleColors.RESET);
+        System.out.println(makePurple("Benvenuto su NetWave"));
 
         boolean isRunning = true;
 
@@ -89,6 +92,9 @@ public class Main {
                                         }
                                         case 3 -> {
                                             query3();
+                                        }
+                                        case 4 -> {
+                                            query4();
                                         }
                                         default -> {
                                             System.out.println("Opzione non disponibile");

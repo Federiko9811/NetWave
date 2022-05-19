@@ -1,14 +1,12 @@
 package Query;
 
 import db_connection.Connector;
-import utils.ConsoleColors;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Scanner;
+
+import static utils.ConsoleColors.makeGreen;
+import static utils.ConsoleColors.makeRed;
 
 public class Interrogazioni {
 
@@ -38,7 +36,7 @@ public class Interrogazioni {
             rs = ps.executeQuery();
 
             if (!rs.isBeforeFirst()) {
-                System.out.println("Non sono stati trovati tecnici che hanno effettuato installazioni il loro primo giorno di lavoro");
+                System.out.println(makeRed("Non sono stati trovati tecnici che hanno effettuato installazioni il loro primo giorno di lavoro"));
             } else {
                 System.out.println("+-----------------------+");
                 while (rs.next()) {
@@ -70,7 +68,7 @@ public class Interrogazioni {
             rs = ps.executeQuery();
 
             if (!rs.isBeforeFirst()) {
-                System.out.println("Non sono stati trovati dipendenti che hanno un abbonamento con NetWave");
+                System.out.println(makeRed("Non sono stati trovati dipendenti che hanno un abbonamento con NetWave"));
             } else {
                 System.out.println("+-----------------------+");
                 while (rs.next()) {
@@ -95,7 +93,7 @@ public class Interrogazioni {
         Scanner scan = new Scanner(System.in);
 
         try {
-            System.out.println("Inserisci mese e anno nel formato yyyy-mm: ");
+            System.out.println(makeGreen("Inserisci mese e anno nel formato yyyy-mm: "));
             String meseAnno = scan.nextLine();
             meseAnno += "-01";
 
@@ -116,11 +114,47 @@ public class Interrogazioni {
             rs = ps.executeQuery();
 
             if (!rs.isBeforeFirst()) {
-                System.out.println("Non sono stati utilizzati furgoni in quella data");
+                System.out.println(makeRed("Non sono stati utilizzati furgoni in quella data"));
             } else {
                 System.out.println("+-----------------------+");
                 while (rs.next()) {
                     System.out.println("Numero Furgoni: " + rs.getString(1));
+                    System.out.println("+-----------------------+");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Nome ed Email dei clienti che hanno effettuato un abbonamento il giorno di scadenza di una Tariffa
+     */
+    public static void query4() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+        Scanner scan = new Scanner(System.in);
+
+        try {
+            String sql = """
+                    select clienti_abbonati.nome, clienti_abbonati.email
+                    from clienti_abbonati
+                             join tariffa t on clienti_abbonati.tariffa = t.nome
+                    where clienti_abbonati.data_adesione = t.data_fine;
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                System.out.println(makeRed("Non sono trovati clienti"));
+            } else {
+                System.out.println("+-----------------------+");
+                while (rs.next()) {
+                    System.out.println("Nome: " + rs.getString(1));
+                    System.out.println("Email: " + rs.getString(2));
                     System.out.println("+-----------------------+");
                 }
             }
