@@ -20,7 +20,8 @@ public class Main {
                     "Nomi e Cognomi dei tecnici che hanno effettuato un'istallazione il primo giorno di lavoro",
                     "Codice fiscale ed Email dei dipendenti che hanno effettuato un abbonamento con NetWave",
                     "Numero di furgoni utilizzati nelle istallazioni di (mese e anno), utilizzati da tecnici",
-                    "Nome e Email dei clienti che hanno effettuato un abbonamento il giorno di scadenza di una Tariffa"
+                    "Nome e Email dei clienti che hanno effettuato un abbonamento il giorno di scadenza di una Tariffa",
+                    "Numero di Sim in possesso da clienti che hanno sia un abbonamento con tariffa fissa che mobile"
             )
     );
 
@@ -95,6 +96,9 @@ public class Main {
                                         }
                                         case 4 -> {
                                             query4();
+                                        }
+                                        case 5 -> {
+                                            query5();
                                         }
                                         default -> {
                                             System.out.println("Opzione non disponibile");

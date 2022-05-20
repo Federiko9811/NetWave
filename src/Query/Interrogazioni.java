@@ -135,7 +135,6 @@ public class Interrogazioni {
         Connection link = Connector.connect();
         PreparedStatement ps;
         ResultSet rs;
-        Scanner scan = new Scanner(System.in);
 
         try {
             String sql = """
@@ -155,6 +154,42 @@ public class Interrogazioni {
                 while (rs.next()) {
                     System.out.println("Nome: " + rs.getString(1));
                     System.out.println("Email: " + rs.getString(2));
+                    System.out.println("+-----------------------+");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Numero di Sim in possesso da clienti che hanno sia un abbonamento con tariffa fissa che mobile
+     */
+    public static void query5() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select count(*) as numero_sim
+                    from cliente
+                             join sim s on cliente.email = s.cliente
+                    where email in
+                          (select clienti_linea_fissa.email from clienti_linea_fissa)
+                      and email in (select clienti_linea_mobile.email from clienti_linea_mobile);
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                System.out.println(makeRed("Non sono trovate sim in possesso da clienti con abbonamenti sia mobili che fissi"));
+            } else {
+                System.out.println("+-----------------------+");
+                while (rs.next()) {
+                    System.out.println("Numero Sim: " + rs.getString(1));
                     System.out.println("+-----------------------+");
                 }
             }
