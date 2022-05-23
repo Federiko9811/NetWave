@@ -40,7 +40,7 @@ public class Creazione {
             List<String> listaTipiColonne = new ArrayList<>();
 
             for (int i = 1; i <= metaData.getColumnCount(); i++) {
-                if (metaData.getColumnTypeName(i).equals("serial")){
+                if (metaData.getColumnTypeName(i).equals("serial")) {
                     continue;
                 }
                 listaNomiColonne.add(metaData.getColumnName(i));
@@ -86,11 +86,11 @@ public class Creazione {
         for (int i = 0; i < numeroColonne; i++) {
             String tipo = informazioniTabella.getTipiColonne().get(i);
             if (i == numeroColonne - 1) {
-                s.append(tipo).append(")");
-                s2.append("?").append(")");
+                s.append("?").append("::").append(tipo).append(")");
+                s2.append(tipo).append(")");
             } else {
-                s.append(tipo).append(", ");
-                s2.append("?").append(", ");
+                s.append("?").append("::").append(tipo).append(", ");
+                s2.append(tipo).append(", ");
             }
         }
 
@@ -108,8 +108,8 @@ public class Creazione {
         try {
             List<String> listaQuery = creaInsertString(informazioniTabella);
             String sql = listaQuery.get(0);
-            System.out.println(makeRed("Query: " + listaQuery.get(1)));
-            System.out.println(makeRed("Query: " + listaQuery.get(0)));
+            System.out.println(ConsoleColors.RED_BOLD + "Query: " + listaQuery.get(1) + ConsoleColors.RESET);
+//            System.out.println(ConsoleColors.RED_BOLD + "Query: " + listaQuery.get(0) + ConsoleColors.RESET);
             assert link != null;
             ps = link.prepareStatement(sql);
 
