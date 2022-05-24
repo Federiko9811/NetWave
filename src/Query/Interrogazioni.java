@@ -59,7 +59,7 @@ public class Interrogazioni {
 
         try {
             String sql = """
-                    select cliente.codice_fiscale, cliente.email from cliente
+                    select distinct cliente.codice_fiscale, cliente.email from cliente
                         join dipendente d on cliente.codice_fiscale = d.codice_fiscale
                         join abbonamento a on cliente.email = a.cliente
                     """;
