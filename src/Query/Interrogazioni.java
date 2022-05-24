@@ -198,4 +198,40 @@ public class Interrogazioni {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Numero di Sim in possesso da clienti che hanno sia un abbonamento con tariffa fissa che mobile
+     */
+    public static void query6() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select count(*) as numero_installazioni
+                    from partecipazione
+                             join installazione i on i.codice_lavoro = partecipazione.installazione
+                             join mezzo_aziendale ma on ma.targa = i.mezzo_aziendale
+                    where ma.tipo != 'Automobile';
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+
+            System.out.println("+-----------------------+");
+            while (rs.next()) {
+                if (rs.getString(1).equals("0")) {
+                    System.out.println(makeRed("Non sono state trovate installazioni che non hanno necessitato di furgoni"));
+                } else {
+                    System.out.println("Numero Installazioni: " + rs.getString(1));
+                }
+                System.out.println("+-----------------------+");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

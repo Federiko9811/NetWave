@@ -21,7 +21,8 @@ public class Main {
                     "Codice fiscale ed Email dei dipendenti che hanno effettuato un abbonamento con NetWave",
                     "Numero di furgoni utilizzati nelle istallazioni di (mese e anno), utilizzati da tecnici",
                     "Nome e Email dei clienti che hanno effettuato un abbonamento il giorno di scadenza di una Tariffa",
-                    "Numero di Sim in possesso da clienti che hanno sia un abbonamento con tariffa fissa che mobile"
+                    "Numero di Sim in possesso da clienti che hanno sia un abbonamento con tariffa fissa che mobile",
+                    "Numero di Installazioni che hanno coinvolto un'azienda collaboratrice ma che non hanno necessitato di un furgone"
             )
     );
 
@@ -99,6 +100,9 @@ public class Main {
                                         }
                                         case 5 -> {
                                             query5();
+                                        }
+                                        case 6 -> {
+                                            query6();
                                         }
                                         default -> {
                                             System.out.println("Opzione non disponibile");
