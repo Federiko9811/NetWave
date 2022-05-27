@@ -234,4 +234,39 @@ public class Interrogazioni {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Nomi dei fornitori che hanno effettuato il maggior numero di consegne
+     */
+    public static void query7() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select nome
+                    from fornitore
+                             join fornitura f on fornitore.partita_iva = f.fornitore
+                    group by nome
+                    having count(*) = (select max(numero_forniture)
+                                       from (select count(*) as numero_forniture, nome
+                                             from fornitore
+                                                      join fornitura f on fornitore.partita_iva = f.fornitore
+                                             group by nome) as consegne);
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            System.out.println("+-----------------------+");
+            while (rs.next()) {
+                System.out.println("Nome Fornitore: " + rs.getString(1));
+                System.out.println("+-----------------------+");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

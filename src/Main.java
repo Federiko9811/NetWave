@@ -22,7 +22,8 @@ public class Main {
                     "Numero di furgoni utilizzati nelle istallazioni di (mese e anno), utilizzati da tecnici",
                     "Nome e Email dei clienti che hanno effettuato un abbonamento il giorno di scadenza di una Tariffa",
                     "Numero di Sim in possesso da clienti che hanno sia un abbonamento con tariffa fissa che mobile",
-                    "Numero di Installazioni che hanno coinvolto un'azienda collaboratrice ma che non hanno necessitato di un furgone"
+                    "Numero di Installazioni che hanno coinvolto un'azienda collaboratrice ma che non hanno necessitato di un furgone",
+                    "Nomi dei fornitori che hanno effettuato il maggior numero di consegne"
             )
     );
 
@@ -103,6 +104,9 @@ public class Main {
                                         }
                                         case 6 -> {
                                             query6();
+                                        }
+                                        case 7 -> {
+                                            query7();
                                         }
                                         default -> {
                                             System.out.println("Opzione non disponibile");
