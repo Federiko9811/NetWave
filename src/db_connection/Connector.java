@@ -9,8 +9,8 @@ public class Connector {
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(
-                    "jdbc:postgresql://netwave-server.postgres.database.azure.com:5432/postgres",
-                    "postgres@netwave-server",
+                    "jdbc:postgresql://79.51.228.93:5432/netwave",
+                    "postgres",
                     "Netwave2022@"
             );
         } catch (Exception e) {
