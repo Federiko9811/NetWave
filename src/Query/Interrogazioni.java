@@ -200,7 +200,7 @@ public class Interrogazioni {
     }
 
     /**
-     * Numero di Sim in possesso da clienti che hanno sia un abbonamento con tariffa fissa che mobile
+     * Numero di Installazioni che hanno coinvolto un'azienda collaboratrice ma che non hanno necessitato di un furgone
      */
     public static void query6() {
         Connection link = Connector.connect();
@@ -213,7 +213,7 @@ public class Interrogazioni {
                     from partecipazione
                              join installazione i on i.codice_lavoro = partecipazione.installazione
                              join mezzo_aziendale ma on ma.targa = i.mezzo_aziendale
-                    where ma.tipo != 'Automobile';
+                    where ma.tipo != 'Furgone';
                     """;
             assert link != null;
             ps = link.prepareStatement(sql);
