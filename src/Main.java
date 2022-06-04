@@ -27,7 +27,8 @@ public class Main {
                     "non va",
                     "Nomi e Cognomi di Assistenti che non hanno partecipato a nessun lavoro nell'ultimo mese",
                     "Targhe e Comuni delle Sedi delle Automobili con il maggior numero di chilometri registrati",
-                    "Media degli stipendi per ogni categoria di dipendente"
+                    "Media degli stipendi per ogni categoria di dipendente",
+                    "Fatture e clienti delle installazioni a cui hanno partecipato più di due aziende collaboratrici e il cui cliente dispone del solo abbonamento fisso"
             )
     );
 
@@ -123,6 +124,9 @@ public class Main {
                                         }
                                         case 11 -> {
                                             query11();
+                                        }
+                                        case 12 -> {
+                                            query12();
                                         }
                                         default -> {
                                             System.out.println("Opzione non disponibile");

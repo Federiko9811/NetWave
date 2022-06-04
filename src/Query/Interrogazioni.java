@@ -363,4 +363,51 @@ public class Interrogazioni {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Fatture e clienti delle installazioni a cui hanno partecipato più di due aziende collaboratrici e il cui cliente dispone del solo abbonamento fisso
+     */
+    public static void query12() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select l.cliente, fattura.data_emissione, fattura.costo_lavoro
+                    from fattura
+                             join lavoro l on l.codice = fattura.installazione
+                    where installazione in (select l.codice
+                                            from lavoro l
+                                                     join cliente c on c.email = l.cliente
+                                            where c.email in (select email
+                                                              from clienti_linea_fissa)
+                                              and c.email not in (select email
+                                                                  from clienti_linea_mobile)
+                                              and l.codice in (select installazione
+                                                               from installazione
+                                                                        join partecipazione p on installazione.codice_lavoro = p.installazione
+                                                               group by installazione
+                                                               having count(azienda_collaboratrice) > 2))
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                System.out.println(makeRed("Non ci sono risultati per questa query"));
+            } else {
+                System.out.println("+-----------------------+");
+                while (rs.next()) {
+                    System.out.println("Cliente : " + rs.getString(1));
+                    System.out.println("Data Emissione : " + rs.getString(2));
+                    System.out.println("Costo : " + rs.getString(3) + " €");
+                    System.out.println("+-----------------------+");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
