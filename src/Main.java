@@ -23,7 +23,11 @@ public class Main {
                     "Nome e Email dei clienti che hanno effettuato un abbonamento il giorno di scadenza di una Tariffa",
                     "Numero di Sim in possesso da clienti che hanno sia un abbonamento con tariffa fissa che mobile",
                     "Numero di Installazioni che hanno coinvolto un'azienda collaboratrice ma che non hanno necessitato di un furgone",
-                    "Nomi dei fornitori che hanno effettuato il maggior numero di consegne"
+                    "Nomi dei fornitori che hanno effettuato il maggior numero di consegne",
+                    "non va",
+                    "Nomi e Cognomi di Assistenti che non hanno partecipato a nessun lavoro nell'ultimo mese",
+                    "Targhe e Comuni delle Sedi delle Automobili con il maggior numero di chilometri registrati",
+                    "Media degli stipendi per ogni categoria di dipendente"
             )
     );
 
@@ -107,6 +111,18 @@ public class Main {
                                         }
                                         case 7 -> {
                                             query7();
+                                        }
+                                        case 8 -> {
+                                            break;
+                                        }
+                                        case 9 -> {
+                                            query9();
+                                        }
+                                        case 10 -> {
+                                            query10();
+                                        }
+                                        case 11 -> {
+                                            query11();
                                         }
                                         default -> {
                                             System.out.println("Opzione non disponibile");

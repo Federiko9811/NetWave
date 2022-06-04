@@ -269,4 +269,98 @@ public class Interrogazioni {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Nomi e Cognomi di Assistenti che non hanno partecipato a nessun lavoro nell'ultimo mese
+     */
+    public static void query9() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select nome, cognome
+                    from assistente_clienti
+                             join dipendente d on d.codice_fiscale = assistente_clienti.dipendente
+                    where d.codice_fiscale not in (select * from lavoratori_ultimo_mese_assistenti);
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            System.out.println("+-----------------------+");
+            while (rs.next()) {
+                System.out.println("Nome : " + rs.getString(1));
+                System.out.println("Cognome : " + rs.getString(2));
+                System.out.println("+-----------------------+");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Targhe e Comuni delle Sedi delle Automobili con il maggior numero di chilometri registrati
+     */
+    public static void query10() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select c.nome, targa
+                    from mezzo_aziendale
+                             join area_operativa ao on ao.id = mezzo_aziendale.area_operativa
+                             join comune c on c.id = ao.comune
+                             join chilometraggio c2 on mezzo_aziendale.targa = c2.mezzo_aziendale
+                    where chilometri = (select max(chilometri) as max_chilometri
+                                        from chilometraggio)
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            System.out.println("+-----------------------+");
+            while (rs.next()) {
+                System.out.println("Comune : " + rs.getString(1));
+                System.out.println("Targa : " + rs.getString(2));
+                System.out.println("+-----------------------+");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Media degli stipendi per ogni categoria di dipendente
+     */
+    public static void query11() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select retribuzionemediatecnici, retribuzionemediaassistenti
+                    from stipendioMedioTecnici, stipendioMedioAssistenti
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            System.out.println("+-----------------------+");
+            while (rs.next()) {
+                System.out.println("Tecnici : " + rs.getString(1) + " €/anno");
+                System.out.println("Assistenti : " + rs.getString(2) + " €/anno");
+                System.out.println("+-----------------------+");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
