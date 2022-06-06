@@ -302,6 +302,42 @@ public class Interrogazioni {
     }
 
     /**
+     * Comune e via delle sedi che hanno almeno 2000 materiali di ogni tipo
+     */
+    public static void query8() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select c.nome, via
+                    from area_operativa a join comune c on c.id = a.comune
+                    where (select count(distinct tipo)
+                           from materiale m,
+                                disponibilita d
+                           where m.id = d.materiale
+                             and a.id = d.area_operativa
+                             and d.quantita >= 2000) = (select count(distinct tipo)
+                                                        from materiale)
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            System.out.println("+-----------------------+");
+            while (rs.next()) {
+                System.out.println("Comune : " + rs.getString(1));
+                System.out.println("Via : " + rs.getString(2));
+                System.out.println("+-----------------------+");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Targhe e Comuni delle Sedi delle Automobili con il maggior numero di chilometri registrati
      */
     public static void query10() {
@@ -402,6 +438,181 @@ public class Interrogazioni {
                     System.out.println("Cliente : " + rs.getString(1));
                     System.out.println("Data Emissione : " + rs.getString(2));
                     System.out.println("Costo : " + rs.getString(3) + " €");
+                    System.out.println("+-----------------------+");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Età media dei dipendenti che sono stati assunti nel 2019 con un contratto FullTime
+     */
+    public static void query13() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select avg(extract(year from current_date) - extract(year from data_nascita))
+                    from dipendenti_assunti_FullTime_2019;
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                System.out.println(makeRed("Non ci sono risultati per questa query"));
+            } else {
+                System.out.println("+-----------------------+");
+                while (rs.next()) {
+                    String s = String.format("%.1f", Float.parseFloat(rs.getString(1)));
+                    System.out.println("Età media : " + s);
+                    System.out.println("+-----------------------+");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Nomi delle tariffe più economiche con durata di disponibilità maggiore
+     */
+    public static void query14() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select *
+                    from tariffa
+                    where costo_mensile = (select min(costo_mensile) from tariffa)
+                    and data_fine - tariffa.data_inizio = (select max(data_fine - data_inizio) from tariffa)
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                System.out.println(makeRed("Non ci sono risultati per questa query"));
+            } else {
+                System.out.println("+-----------------------+");
+                while (rs.next()) {
+                    System.out.println("Tariffa : " + rs.getString(1));
+                    System.out.println("+-----------------------+");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Email dei clienti con una spesa mensile degli abbonamenti più elevata
+     */
+    public static void query15() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select cliente
+                    from abbonamento a
+                             join tariffa t on a.tariffa = t.nome
+                    group by cliente
+                    having sum(costo_mensile) >= ALL (select sum(costo_mensile)
+                                                      from abbonamento a
+                                                               join tariffa t on a.tariffa = t.nome
+                                                      group by cliente)
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                System.out.println(makeRed("Non ci sono risultati per questa query"));
+            } else {
+                System.out.println("+-----------------------+");
+                while (rs.next()) {
+                    System.out.println("Cliente : " + rs.getString(1));
+                    System.out.println("+-----------------------+");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Comuni con sede operativa che hanno il minor numero di furgoni ma il maggior numero di tecnici
+     */
+    public static void query16() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select nome
+                    from comune join area_operativa ao on comune.id = ao.comune
+                    where ao.id in (select id
+                                    from aree_operative_min_furgoni)
+                    and ao.id in (select id
+                                  from aree_operative_max_tecnici)
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                System.out.println(makeRed("Non ci sono risultati per questa query"));
+            } else {
+                System.out.println("+-----------------------+");
+                while (rs.next()) {
+                    System.out.println("Comune : " + rs.getString(1));
+                    System.out.println("+-----------------------+");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Aziende che hanno ricevuto assistenza da un dipendente il cui contratto era in scadenza (stesso mese della richiesta)
+     */
+    public static void query17() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select nome
+                    from cliente join lavoro l on cliente.email = l.cliente join contratto on assistente = contratto.dipendente
+                    where cliente.tipo = 'Azienda' and l.tipo_lavoro = 'Assistenza' and to_char(l.data_inizio, 'mon-yyyy') = to_char(contratto.data_fine, 'mon-yyyy')
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                System.out.println(makeRed("Non ci sono risultati per questa query"));
+            } else {
+                System.out.println("+-----------------------+");
+                while (rs.next()) {
+                    System.out.println("Nome : " + rs.getString(1));
                     System.out.println("+-----------------------+");
                 }
             }

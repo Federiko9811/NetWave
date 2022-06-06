@@ -24,11 +24,17 @@ public class Main {
                     "Numero di Sim in possesso da clienti che hanno sia un abbonamento con tariffa fissa che mobile",
                     "Numero di Installazioni che hanno coinvolto un'azienda collaboratrice ma che non hanno necessitato di un furgone",
                     "Nomi dei fornitori che hanno effettuato il maggior numero di consegne",
-                    "non va",
+                    "Comune e via delle sedi che hanno almeno 2000 materiali di ogni tipo2" +
+                            "",
                     "Nomi e Cognomi di Assistenti che non hanno partecipato a nessun lavoro nell'ultimo mese",
                     "Targhe e Comuni delle Sedi delle Automobili con il maggior numero di chilometri registrati",
                     "Media degli stipendi per ogni categoria di dipendente",
-                    "Fatture e clienti delle installazioni a cui hanno partecipato più di due aziende collaboratrici e il cui cliente dispone del solo abbonamento fisso"
+                    "Fatture e clienti delle installazioni a cui hanno partecipato più di due aziende collaboratrici e il cui cliente dispone del solo abbonamento fisso",
+                    "Età media dei dipendenti che sono stati assunti nel 2019 con un contratto FullTime",
+                    "Nomi delle tariffe più economiche con durata di disponibilità maggiore",
+                    "Email dei clienti con una spesa mensile degli abbonamenti più elevata",
+                    "Comuni con sede operativa che hanno il minor numero di furgoni ma il maggior numero di tecnici ",
+                    "Aziende che hanno ricevuto assistenza da un dipendente il cui contratto era in scadenza (stesso mese della richiesta) "
             )
     );
 
@@ -114,7 +120,7 @@ public class Main {
                                             query7();
                                         }
                                         case 8 -> {
-                                            break;
+                                            query8();
                                         }
                                         case 9 -> {
                                             query9();
@@ -127,6 +133,21 @@ public class Main {
                                         }
                                         case 12 -> {
                                             query12();
+                                        }
+                                        case 13 -> {
+                                            query13();
+                                        }
+                                        case 14 -> {
+                                            query14();
+                                        }
+                                        case 15 -> {
+                                            query15();
+                                        }
+                                        case 16 -> {
+                                            query16();
+                                        }
+                                        case 17 -> {
+                                            query17();
                                         }
                                         default -> {
                                             System.out.println("Opzione non disponibile");
