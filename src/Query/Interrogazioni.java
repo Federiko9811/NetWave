@@ -98,14 +98,12 @@ public class Interrogazioni {
             meseAnno += "-01";
 
             String sql = """
-                    select count(targa) as numero_furgoni from mezzo_aziendale
-                      join installazione i on mezzo_aziendale.targa = i.mezzo_aziendale
-                      join lavoro l on l.codice = i.codice_lavoro
-                      where tipo = 'Furgone'
-                      and
-                      extract(month from data_inizio) = extract(month from ?::date)
-                      and
-                      extract(year from data_inizio) = extract(year from ?::date)
+                    select count(targa) as numero_furgoni
+                    from furgoni_aziendali f
+                             join installazione i on f.targa = i.mezzo_aziendale
+                             join lavoro l on l.codice = i.codice_lavoro
+                    where extract(month from data_inizio) = extract(month from ?::date)
+                      and extract(year from data_inizio) = extract(year from ?::date);
                     """;
             assert link != null;
             ps = link.prepareStatement(sql);
@@ -613,6 +611,49 @@ public class Interrogazioni {
                 System.out.println("+-----------------------+");
                 while (rs.next()) {
                     System.out.println("Nome : " + rs.getString(1));
+                    System.out.println("+-----------------------+");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Email dei tecnici che hanno effettuato il maggior numero d'installazioni e hanno un contratto valido da meno tempo
+     */
+    public static void query18() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select email
+                    from tecnico t join dipendente d on t.dipendente = d.codice_fiscale
+                    where (select count(*)
+                        from svolgimento_installazioni si
+                        where si.tecnico = t.dipendente) = (select max(installazioni)
+                                                            from (select count(*) as installazioni
+                                                                  from svolgimento_installazioni join tecnico t2 on svolgimento_installazioni.tecnico = t2.dipendente
+                                                                  group by t2.dipendente) as installazioniDip)
+                    and  current_date - (select max(data_inizio)
+                          from contratto c
+                          where t.dipendente = c.dipendente) <= ALL (select current_date - max(data_inizio)
+                                                                     from contratto join tecnico t3 on contratto.dipendente = t3.dipendente
+                                                                     group by t3.dipendente);
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                System.out.println(makeRed("Non ci sono risultati per questa query"));
+            } else {
+                System.out.println("+-----------------------+");
+                while (rs.next()) {
+                    System.out.println("Email : " + rs.getString(1));
                     System.out.println("+-----------------------+");
                 }
             }

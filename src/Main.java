@@ -24,8 +24,7 @@ public class Main {
                     "Numero di Sim in possesso da clienti che hanno sia un abbonamento con tariffa fissa che mobile",
                     "Numero di Installazioni che hanno coinvolto un'azienda collaboratrice ma che non hanno necessitato di un furgone",
                     "Nomi dei fornitori che hanno effettuato il maggior numero di consegne",
-                    "Comune e via delle sedi che hanno almeno 2000 materiali di ogni tipo2" +
-                            "",
+                    "Comune e via delle sedi che hanno almeno 2000 materiali di ogni tipo",
                     "Nomi e Cognomi di Assistenti che non hanno partecipato a nessun lavoro nell'ultimo mese",
                     "Targhe e Comuni delle Sedi delle Automobili con il maggior numero di chilometri registrati",
                     "Media degli stipendi per ogni categoria di dipendente",
@@ -34,7 +33,8 @@ public class Main {
                     "Nomi delle tariffe più economiche con durata di disponibilità maggiore",
                     "Email dei clienti con una spesa mensile degli abbonamenti più elevata",
                     "Comuni con sede operativa che hanno il minor numero di furgoni ma il maggior numero di tecnici ",
-                    "Aziende che hanno ricevuto assistenza da un dipendente il cui contratto era in scadenza (stesso mese della richiesta) "
+                    "Aziende che hanno ricevuto assistenza da un dipendente il cui contratto era in scadenza (stesso mese della richiesta)",
+                    "Email dei tecnici che hanno effettuato il maggior numero di installazioni e hanno un contratto valido da meno tempo"
             )
     );
 
@@ -61,7 +61,7 @@ public class Main {
                         String tabella;
                         while (isAdding) {
                             System.out.println("Scrivi il nome della tabella nella quale vuoi inserire un record");
-                            System.out.println("Scrivi "+EXIT+" se vuoi tornare al menù precedente");
+                            System.out.println("Scrivi " + EXIT + " se vuoi tornare al menù precedente");
 
                             tabella = scan.nextLine();
 
@@ -82,10 +82,10 @@ public class Main {
                         String query;
                         while (isQuerying) {
                             System.out.println("Seleziona il numero della query che vuoi eseguire:");
-                            System.out.println("Scrivi "+EXIT+" se vuoi tornare al menù precedente");
+                            System.out.println("Scrivi " + EXIT + " se vuoi tornare al menù precedente");
 
-                            for (int k=0; k<listaQuery.size(); k++) {
-                                System.out.println((k+1)+") "+listaQuery.get(k));
+                            for (int k = 0; k < listaQuery.size(); k++) {
+                                System.out.println((k + 1) + ") " + listaQuery.get(k));
                             }
 
                             query = scan.nextLine();
@@ -149,11 +149,14 @@ public class Main {
                                         case 17 -> {
                                             query17();
                                         }
+                                        case 18 -> {
+                                            query18();
+                                        }
                                         default -> {
                                             System.out.println("Opzione non disponibile");
                                         }
                                     }
-                                } catch ( NumberFormatException e) {
+                                } catch (NumberFormatException e) {
                                     System.out.println("Devi scrivere un numero");
                                 }
                             }
