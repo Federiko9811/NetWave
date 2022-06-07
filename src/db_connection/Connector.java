@@ -9,7 +9,7 @@ public class Connector {
         try {
             Class.forName("org.postgresql.Driver");
             return DriverManager.getConnection(
-                    "jdbc:postgresql://79.51.228.93:5432/netwave",
+                    "jdbc:postgresql://79.23.222.90:5432/netwave",
                     "postgres",
                     "Netwave2022@"
             );
