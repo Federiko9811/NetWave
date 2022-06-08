@@ -29,7 +29,7 @@ public class Main {
                     "Media degli stipendi per ogni categoria di dipendente",
                     "Fatture e clienti delle installazioni a cui hanno partecipato più di due aziende collaboratrici e il cui cliente dispone del solo abbonamento fisso",
                     "Età media dei dipendenti che sono stati assunti nel 2019 con un contratto FullTime",
-                    "Nomi delle tariffe più economiche con durata di disponibilità maggiore",
+                    "Nomi delle tariffe con il rapporto durata/prezzoMensile maggiore",
                     "Email dei clienti con una spesa mensile degli abbonamenti più elevata",
                     "Comuni con sede operativa che hanno il minor numero di furgoni ma il maggior numero di tecnici ",
                     "Aziende che hanno ricevuto assistenza da un dipendente il cui contratto era in scadenza (stesso mese della richiesta)",

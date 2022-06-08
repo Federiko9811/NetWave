@@ -484,10 +484,10 @@ public class Interrogazioni {
 
         try {
             String sql = """
-                    select *
+                    select tariffa.nome
                     from tariffa
-                    where costo_mensile = (select min(costo_mensile) from tariffa)
-                    and data_fine - tariffa.data_inizio = (select max(data_fine - data_inizio) from tariffa)
+                    where (select (data_fine - tariffa.data_inizio) / costo_mensile) = (select max((data_fine-data_inizio)::double precision/costo_mensile)
+                                                                                        from tariffa)
                     """;
             assert link != null;
             ps = link.prepareStatement(sql);
