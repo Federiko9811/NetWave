@@ -75,7 +75,7 @@ public class Interrogazioni {
                 while (rs.next()) {
                     System.out.println(makeGreen("CF: " + rs.getString(1)));
                     System.out.println(makeGreen("Email: " + rs.getString(2)));
-                    System.out.println("+-----------------------+");
+                    System.out.println(makeGreen("+-----------------------+"));
                 }
             }
 
@@ -264,6 +264,48 @@ public class Interrogazioni {
         }
     }
 
+
+    /**
+     * Comune e via delle sedi che hanno almeno 2000 materiali di ogni tipo
+     */
+    public static void query8() {
+        Connection link = Connector.connect();
+        PreparedStatement ps;
+        ResultSet rs;
+
+        try {
+            String sql = """
+                    select c.nome, via
+                    from area_operativa a join comune c on c.id = a.comune
+                    where (select count(distinct tipo)
+                           from materiale m,
+                                disponibilita d
+                           where m.id = d.materiale
+                             and a.id = d.area_operativa
+                             and d.quantita >= 2000) = (select count(distinct tipo)
+                                                        from materiale)
+                    """;
+            assert link != null;
+            ps = link.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                System.out.println(makeRed("Non ci sono risultati per questa query"));
+            } else {
+                System.out.println(makeGreen("+-----------------------+"));
+                while (rs.next()) {
+                    System.out.println(makeGreen("Comune : " + rs.getString(1)));
+                    System.out.println(makeGreen("Via : " + rs.getString(2)));
+                    System.out.println(makeGreen("+-----------------------+"));
+                }
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Nomi e Cognomi di Assistenti che non hanno partecipato a nessun lavoro nell'ultimo mese
      */
@@ -296,42 +338,6 @@ public class Interrogazioni {
     }
 
     /**
-     * Comune e via delle sedi che hanno almeno 2000 materiali di ogni tipo
-     */
-    public static void query8() {
-        Connection link = Connector.connect();
-        PreparedStatement ps;
-        ResultSet rs;
-
-        try {
-            String sql = """
-                    select c.nome, via
-                    from area_operativa a join comune c on c.id = a.comune
-                    where (select count(distinct tipo)
-                           from materiale m,
-                                disponibilita d
-                           where m.id = d.materiale
-                             and a.id = d.area_operativa
-                             and d.quantita >= 2000) = (select count(distinct tipo)
-                                                        from materiale)
-                    """;
-            assert link != null;
-            ps = link.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            System.out.println(makeGreen("+-----------------------+"));
-            while (rs.next()) {
-                System.out.println(makeGreen("Comune : " + rs.getString(1)));
-                System.out.println(makeGreen("Via : " + rs.getString(2)));
-                System.out.println(makeGreen("+-----------------------+"));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Targhe e Comuni delle Sedi delle Automobili con il maggior numero di chilometri registrati
      */
     public static void query10() {
@@ -353,11 +359,15 @@ public class Interrogazioni {
             ps = link.prepareStatement(sql);
             rs = ps.executeQuery();
 
-            System.out.println(makeGreen("+-----------------------+"));
-            while (rs.next()) {
-                System.out.println(makeGreen("Comune : " + rs.getString(1)));
-                System.out.println(makeGreen("Targa : " + rs.getString(2)));
+            if (!rs.isBeforeFirst()) {
+                System.out.println(makeRed("Non ci sono risultati per questa query"));
+            } else {
                 System.out.println(makeGreen("+-----------------------+"));
+                while (rs.next()) {
+                    System.out.println(makeGreen("Comune : " + rs.getString(1)));
+                    System.out.println(makeGreen("Targa : " + rs.getString(2)));
+                    System.out.println(makeGreen("+-----------------------+"));
+                }
             }
 
         } catch (SQLException e) {
