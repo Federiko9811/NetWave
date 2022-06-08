@@ -38,10 +38,11 @@ public class Interrogazioni {
             if (!rs.isBeforeFirst()) {
                 System.out.println(makeRed("Non sono stati trovati tecnici che hanno effettuato installazioni il loro primo giorno di lavoro"));
             } else {
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("+-----------------------+"));
                 while (rs.next()) {
-                    System.out.println(rs.getString(1) + " " + rs.getString(2));
-                    System.out.println("+-----------------------+");
+                    System.out.println(makeGreen("Nome:  " + rs.getString(1)));
+                    System.out.println(makeGreen("Cognome: " + rs.getString(2)));
+                    System.out.println(makeGreen("+-----------------------+"));
                 }
             }
         } catch (SQLException e) {
@@ -70,10 +71,10 @@ public class Interrogazioni {
             if (!rs.isBeforeFirst()) {
                 System.out.println(makeRed("Non sono stati trovati dipendenti che hanno un abbonamento con NetWave"));
             } else {
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("+-----------------------+"));
                 while (rs.next()) {
-                    System.out.println(rs.getString(1));
-                    System.out.println(rs.getString(2));
+                    System.out.println(makeGreen("CF: " + rs.getString(1)));
+                    System.out.println(makeGreen("Email: " + rs.getString(2)));
                     System.out.println("+-----------------------+");
                 }
             }
@@ -114,10 +115,10 @@ public class Interrogazioni {
             if (!rs.isBeforeFirst()) {
                 System.out.println(makeRed("Non sono stati utilizzati furgoni in quella data"));
             } else {
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("+-----------------------+"));
                 while (rs.next()) {
-                    System.out.println("Numero Furgoni: " + rs.getString(1));
-                    System.out.println("+-----------------------+");
+                    System.out.println(makeGreen("Numero Furgoni: " + rs.getString(1)));
+                    System.out.println(makeGreen("+-----------------------+"));
                 }
             }
 
@@ -148,11 +149,11 @@ public class Interrogazioni {
             if (!rs.isBeforeFirst()) {
                 System.out.println(makeRed("Non sono trovati clienti"));
             } else {
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("+-----------------------+"));
                 while (rs.next()) {
-                    System.out.println("Nome: " + rs.getString(1));
-                    System.out.println("Email: " + rs.getString(2));
-                    System.out.println("+-----------------------+");
+                    System.out.println(makeGreen("Nome: " + rs.getString(1)));
+                    System.out.println(makeGreen("Email: " + rs.getString(2)));
+                    System.out.println(makeGreen("+-----------------------+"));
                 }
             }
 
@@ -185,10 +186,10 @@ public class Interrogazioni {
             if (!rs.isBeforeFirst()) {
                 System.out.println(makeRed("Non sono trovate sim in possesso da clienti con abbonamenti sia mobili che fissi"));
             } else {
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("+-----------------------+"));
                 while (rs.next()) {
-                    System.out.println("Numero Sim: " + rs.getString(1));
-                    System.out.println("+-----------------------+");
+                    System.out.println(makeGreen("Numero Sim: " + rs.getString(1)));
+                    System.out.println(makeGreen("+-----------------------+"));
                 }
             }
 
@@ -217,15 +218,10 @@ public class Interrogazioni {
             ps = link.prepareStatement(sql);
             rs = ps.executeQuery();
 
-
-            System.out.println("+-----------------------+");
+            System.out.println(makeGreen("+-----------------------+"));
             while (rs.next()) {
-                if (rs.getString(1).equals("0")) {
-                    System.out.println(makeRed("Non sono state trovate installazioni che non hanno necessitato di furgoni"));
-                } else {
-                    System.out.println("Numero Installazioni: " + rs.getString(1));
-                }
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("Numero Installazioni: " + rs.getString(1)));
+                System.out.println(makeGreen("+-----------------------+"));
             }
 
         } catch (SQLException e) {
@@ -257,10 +253,10 @@ public class Interrogazioni {
             ps = link.prepareStatement(sql);
             rs = ps.executeQuery();
 
-            System.out.println("+-----------------------+");
+            System.out.println(makeGreen("+-----------------------+"));
             while (rs.next()) {
-                System.out.println("Nome Fornitore: " + rs.getString(1));
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("Nome Fornitore: " + rs.getString(1)));
+                System.out.println(makeGreen("+-----------------------+"));
             }
 
         } catch (SQLException e) {
@@ -287,11 +283,11 @@ public class Interrogazioni {
             ps = link.prepareStatement(sql);
             rs = ps.executeQuery();
 
-            System.out.println("+-----------------------+");
+            System.out.println(makeGreen("+-----------------------+"));
             while (rs.next()) {
-                System.out.println("Nome : " + rs.getString(1));
-                System.out.println("Cognome : " + rs.getString(2));
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("Nome : " + rs.getString(1)));
+                System.out.println(makeGreen("Cognome : " + rs.getString(2)));
+                System.out.println(makeGreen("+-----------------------+"));
             }
 
         } catch (SQLException e) {
@@ -323,11 +319,11 @@ public class Interrogazioni {
             ps = link.prepareStatement(sql);
             rs = ps.executeQuery();
 
-            System.out.println("+-----------------------+");
+            System.out.println(makeGreen("+-----------------------+"));
             while (rs.next()) {
-                System.out.println("Comune : " + rs.getString(1));
-                System.out.println("Via : " + rs.getString(2));
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("Comune : " + rs.getString(1)));
+                System.out.println(makeGreen("Via : " + rs.getString(2)));
+                System.out.println(makeGreen("+-----------------------+"));
             }
 
         } catch (SQLException e) {
@@ -357,11 +353,11 @@ public class Interrogazioni {
             ps = link.prepareStatement(sql);
             rs = ps.executeQuery();
 
-            System.out.println("+-----------------------+");
+            System.out.println(makeGreen("+-----------------------+"));
             while (rs.next()) {
-                System.out.println("Comune : " + rs.getString(1));
-                System.out.println("Targa : " + rs.getString(2));
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("Comune : " + rs.getString(1)));
+                System.out.println(makeGreen("Targa : " + rs.getString(2)));
+                System.out.println(makeGreen("+-----------------------+"));
             }
 
         } catch (SQLException e) {
@@ -386,11 +382,11 @@ public class Interrogazioni {
             ps = link.prepareStatement(sql);
             rs = ps.executeQuery();
 
-            System.out.println("+-----------------------+");
+            System.out.println(makeGreen("+-----------------------+"));
             while (rs.next()) {
-                System.out.println("Tecnici : " + rs.getString(1) + " €/anno");
-                System.out.println("Assistenti : " + rs.getString(2) + " €/anno");
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("Tecnici : " + rs.getString(1) + " €/anno"));
+                System.out.println(makeGreen("Assistenti : " + rs.getString(2) + " €/anno"));
+                System.out.println(makeGreen("+-----------------------+"));
             }
 
         } catch (SQLException e) {
@@ -431,12 +427,12 @@ public class Interrogazioni {
             if (!rs.isBeforeFirst()) {
                 System.out.println(makeRed("Non ci sono risultati per questa query"));
             } else {
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("+-----------------------+"));
                 while (rs.next()) {
-                    System.out.println("Cliente : " + rs.getString(1));
-                    System.out.println("Data Emissione : " + rs.getString(2));
-                    System.out.println("Costo : " + rs.getString(3) + " €");
-                    System.out.println("+-----------------------+");
+                    System.out.println(makeGreen("Cliente : " + rs.getString(1)));
+                    System.out.println(makeGreen("Data Emissione : " + rs.getString(2)));
+                    System.out.println(makeGreen("Costo : " + rs.getString(3) + " €"));
+                    System.out.println(makeGreen("+-----------------------+"));
                 }
             }
 
@@ -465,11 +461,11 @@ public class Interrogazioni {
             if (!rs.isBeforeFirst()) {
                 System.out.println(makeRed("Non ci sono risultati per questa query"));
             } else {
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("+-----------------------+"));
                 while (rs.next()) {
                     String s = String.format("%.1f", Float.parseFloat(rs.getString(1)));
-                    System.out.println("Età media : " + s);
-                    System.out.println("+-----------------------+");
+                    System.out.println(makeGreen("Età media : " + s));
+                    System.out.println(makeGreen("+-----------------------+"));
                 }
             }
 
@@ -500,10 +496,10 @@ public class Interrogazioni {
             if (!rs.isBeforeFirst()) {
                 System.out.println(makeRed("Non ci sono risultati per questa query"));
             } else {
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("+-----------------------+"));
                 while (rs.next()) {
-                    System.out.println("Tariffa : " + rs.getString(1));
-                    System.out.println("+-----------------------+");
+                    System.out.println(makeGreen("Tariffa : " + rs.getString(1)));
+                    System.out.println(makeGreen("+-----------------------+"));
                 }
             }
 
@@ -538,10 +534,10 @@ public class Interrogazioni {
             if (!rs.isBeforeFirst()) {
                 System.out.println(makeRed("Non ci sono risultati per questa query"));
             } else {
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("+-----------------------+"));
                 while (rs.next()) {
-                    System.out.println("Cliente : " + rs.getString(1));
-                    System.out.println("+-----------------------+");
+                    System.out.println(makeGreen("Cliente : " + rs.getString(1)));
+                    System.out.println(makeGreen("+-----------------------+"));
                 }
             }
 
@@ -574,10 +570,10 @@ public class Interrogazioni {
             if (!rs.isBeforeFirst()) {
                 System.out.println(makeRed("Non ci sono risultati per questa query"));
             } else {
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("+-----------------------+"));
                 while (rs.next()) {
-                    System.out.println("Comune : " + rs.getString(1));
-                    System.out.println("+-----------------------+");
+                    System.out.println(makeGreen("Comune : " + rs.getString(1)));
+                    System.out.println(makeGreen("+-----------------------+"));
                 }
             }
 
@@ -608,10 +604,10 @@ public class Interrogazioni {
             if (!rs.isBeforeFirst()) {
                 System.out.println(makeRed("Non ci sono risultati per questa query"));
             } else {
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("+-----------------------+"));
                 while (rs.next()) {
-                    System.out.println("Nome : " + rs.getString(1));
-                    System.out.println("+-----------------------+");
+                    System.out.println(makeGreen("Nome : " + rs.getString(1)));
+                    System.out.println(makeGreen("+-----------------------+"));
                 }
             }
 
@@ -651,10 +647,10 @@ public class Interrogazioni {
             if (!rs.isBeforeFirst()) {
                 System.out.println(makeRed("Non ci sono risultati per questa query"));
             } else {
-                System.out.println("+-----------------------+");
+                System.out.println(makeGreen("+-----------------------+"));
                 while (rs.next()) {
-                    System.out.println("Email : " + rs.getString(1));
-                    System.out.println("+-----------------------+");
+                    System.out.println(makeGreen("Email : " + rs.getString(1)));
+                    System.out.println(makeGreen("+-----------------------+"));
                 }
             }
 

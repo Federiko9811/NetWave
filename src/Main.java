@@ -1,11 +1,10 @@
 import exceptions.TabellaNonTrovataException;
-import utils.ConsoleColors;
 import utils.InformazioniTabella;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import static Query.Interrogazioni.*;
 import static QueryCreazione.Creazione.getMetaDataTabella;
@@ -98,66 +97,31 @@ public class Main {
                                     int numQuery = Integer.parseInt(query);
 
                                     switch (numQuery) {
-                                        case 1 -> {
-                                            query1();
-                                        }
-                                        case 2 -> {
-                                            query2();
-                                        }
-                                        case 3 -> {
-                                            query3();
-                                        }
-                                        case 4 -> {
-                                            query4();
-                                        }
-                                        case 5 -> {
-                                            query5();
-                                        }
-                                        case 6 -> {
-                                            query6();
-                                        }
-                                        case 7 -> {
-                                            query7();
-                                        }
-                                        case 8 -> {
-                                            query8();
-                                        }
-                                        case 9 -> {
-                                            query9();
-                                        }
-                                        case 10 -> {
-                                            query10();
-                                        }
-                                        case 11 -> {
-                                            query11();
-                                        }
-                                        case 12 -> {
-                                            query12();
-                                        }
-                                        case 13 -> {
-                                            query13();
-                                        }
-                                        case 14 -> {
-                                            query14();
-                                        }
-                                        case 15 -> {
-                                            query15();
-                                        }
-                                        case 16 -> {
-                                            query16();
-                                        }
-                                        case 17 -> {
-                                            query17();
-                                        }
-                                        case 18 -> {
-                                            query18();
-                                        }
-                                        default -> {
-                                            System.out.println("Opzione non disponibile");
-                                        }
+                                        case 1 -> query1();
+                                        case 2 -> query2();
+                                        case 3 -> query3();
+                                        case 4 -> query4();
+                                        case 5 -> query5();
+                                        case 6 -> query6();
+                                        case 7 -> query7();
+                                        case 8 -> query8();
+                                        case 9 -> query9();
+                                        case 10 -> query10();
+                                        case 11 -> query11();
+                                        case 12 -> query12();
+                                        case 13 -> query13();
+                                        case 14 -> query14();
+                                        case 15 -> query15();
+                                        case 16 -> query16();
+                                        case 17 -> query17();
+                                        case 18 -> query18();
+                                        default -> System.out.println("Opzione non disponibile");
                                     }
+                                    TimeUnit.SECONDS.sleep(2);
                                 } catch (NumberFormatException e) {
                                     System.out.println("Devi scrivere un numero");
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
                                 }
                             }
                         }
