@@ -140,7 +140,7 @@ public class Interrogazioni {
                     select clienti_abbonati.nome, clienti_abbonati.email
                     from clienti_abbonati
                              join tariffa t on clienti_abbonati.tariffa = t.nome
-                    where clienti_abbonati.data_adesione = t.data_fine;
+                    where clienti_abbonati.data_adesione = t.data_scadenza;
                     """;
             assert link != null;
             ps = link.prepareStatement(sql);
@@ -496,7 +496,7 @@ public class Interrogazioni {
             String sql = """
                     select tariffa.nome
                     from tariffa
-                    where (select (data_fine - tariffa.data_inizio) / costo_mensile) = (select max((data_fine-data_inizio)::double precision/costo_mensile)
+                    where (select (data_scadenza - tariffa.data_inizio) / costo_mensile) = (select max((data_scadenza-data_inizio)::double precision/costo_mensile)
                                                                                         from tariffa)
                     """;
             assert link != null;
