@@ -37,6 +37,33 @@ public class Main {
             )
     );
 
+    private static final List<String> listaTabelle = new ArrayList<>(
+            List.of(
+                    "Abbonamento",
+                    "Area Operativa",
+                    "Assistente Clienti",
+                    "Azienda Collaboratrice",
+                    "Busta Paga",
+                    "Chilometraggio",
+                    "Cliente",
+                    "Contratto",
+                    "Dipendente",
+                    "Fattura",
+                    "Fornitore",
+                    "Fornitura",
+                    "Lavoro",
+                    "Materiale",
+                    "Mezzo Aziendale",
+                    "Partecipazione",
+                    "Sim",
+                    "Svolgimento Installazioni",
+                    "Tariffa",
+                    "Tecnico",
+                    "Turno Giornaliero",
+                    "Uso Materiale"
+            )
+    );
+
     public static final String EXIT = makeRed("exit");
 
     public static void main(String[] args) {
@@ -62,17 +89,41 @@ public class Main {
                             System.out.println("Scrivi il nome della tabella nella quale vuoi inserire un record");
                             System.out.println("Scrivi " + EXIT + " se vuoi tornare al menù precedente");
 
+                            for (int i = 0; i < listaTabelle.size(); i++) {
+                                System.out.println((i+1) + ") "+ listaTabelle.get(i));
+                            }
+
                             tabella = scan.nextLine();
 
                             if (tabella.equalsIgnoreCase("exit")) {
                                 isAdding = false;
                             } else {
-
-                                try {
-                                    InformazioniTabella i = getMetaDataTabella(tabella);
-                                    inserimento(i);
-                                } catch (TabellaNonTrovataException e) {
-                                    System.out.println(e);
+                                switch (tabella) {
+                                    case "1" -> inserimento(getMetaDataTabella("abbonamento"));
+                                    case "2" -> inserimento(getMetaDataTabella("area_operativa"));
+                                    case "3" -> inserimento(getMetaDataTabella("assistente_clienti"));
+                                    case "4" -> inserimento(getMetaDataTabella("azienda_collaboratrice"));
+                                    case "5" -> inserimento(getMetaDataTabella("busta_paga"));
+                                    case "6" -> inserimento(getMetaDataTabella("chilometraggio"));
+                                    case "7" -> inserimento(getMetaDataTabella("cliente"));
+                                    case "8" -> inserimento(getMetaDataTabella("contratto"));
+                                    case "9" -> inserimento(getMetaDataTabella("dipendente"));
+                                    case "10" -> inserimento(getMetaDataTabella("fattura"));
+                                    case "11" -> inserimento(getMetaDataTabella("fornitore"));
+                                    case "12" -> inserimento(getMetaDataTabella("fornitura"));
+                                    case "13" -> inserimento(getMetaDataTabella("lavoro"));
+                                    case "14" -> inserimento(getMetaDataTabella("materiale"));
+                                    case "15" -> inserimento(getMetaDataTabella("mezzo_aziendale"));
+                                    case "16" -> inserimento(getMetaDataTabella("partecipazione"));
+                                    case "17" -> inserimento(getMetaDataTabella("sim"));
+                                    case "18" -> inserimento(getMetaDataTabella("svolgimento_installazioni"));
+                                    case "19" -> inserimento(getMetaDataTabella("tariffa"));
+                                    case "20" -> inserimento(getMetaDataTabella("tecnico"));
+                                    case "21" -> inserimento(getMetaDataTabella("turno_giornaliero"));
+                                    case "22" -> inserimento(getMetaDataTabella("uso_materiale"));
+                                    default -> {
+                                        System.out.println(makeRed("La tabella selezionata non esiste"));
+                                    }
                                 }
                             }
                         }
@@ -131,6 +182,8 @@ public class Main {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Devi scrivere un numero");
+            } catch (TabellaNonTrovataException e) {
+                throw new RuntimeException(e);
             }
 
         }
